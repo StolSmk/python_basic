@@ -23,14 +23,31 @@ class Coat(Clothes):
 
 class Costume(Clothes):
     def __init__(self, height):
-        self.height = height
+        self.__height = height
 
     def consumption(self):
-        return self.height * 2 + 0.3
+        return self.__height * 2 + 0.3
+
+    @property
+    def height(self):
+        print(f'Height is {self.__height} for {self}')
+        return self.__height
+
+    @height.setter
+    def height(self, height):
+        if height > 200:
+            self.__height = 200
+        else:
+            self.__height = height
 
 my_coat = Coat(52)
 my_costume = Costume(180)
 
+print(f'Consumption for the coat is {my_coat.consumption()}')
+print(f'Consumption for the costume is {my_costume.consumption()}')
 
-print(my_coat.consumption())
-print(my_costume.consumption())
+var = my_costume.height
+
+my_costume.height = 210
+
+print(f'Height for the costume is {my_costume.height}. Consumption is {my_costume.consumption()}')

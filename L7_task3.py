@@ -20,3 +20,44 @@
 # Или, количество ячеек клетки равняется 15, количество ячеек в ряду — 5. Тогда метод make_order() вернет строку:
 # *****\n*****\n*****.
 # Подсказка: подробный список операторов для перегрузки доступен по ссылке.
+
+class Cell:
+    def __init__(self, amount):
+        self.__amount = amount
+
+    @property
+    def amount(self):
+        return self.__amount
+
+    @amount.setter
+    def amount(self, amount):
+        self.__amount = amount
+
+    def __add__(self, other):
+        return Cell(self.__amount + other.__amount)
+
+    def __sub__(self, other):
+        residual = self.__amount - other.__amount
+        if residual >= 0:
+            return Cell(residual)
+        else:
+            print('Residual < 0')
+            return Cell(None)
+
+    def __mul__(self, other):
+        return Cell(self.__amount * other.__amount)
+
+    def __truediv__(self, other):
+        return Cell(self.__amount // other.__amount)
+
+    def make_order(self, cells_in_row):
+        full_rows = self.__amount // cells_in_row
+        cells_in_residual_row = self.__amount % cells_in_row
+        return '\n'.join(['*' * cells_in_row for i in range(0, full_rows)] + ['*' * cells_in_residual_row])
+
+print((Cell(2) + Cell(1)).amount)
+print((Cell(2) - Cell(1)).amount)
+print((Cell(2) * Cell(1)).amount)
+print((Cell(2) / Cell(1)).amount)
+
+print(Cell(12).make_order(5))
